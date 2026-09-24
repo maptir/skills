@@ -14,6 +14,10 @@ First packaged release.
 - Image-credit warning on delivery when a guide ships studio or wiki images.
 - New fixed tab **"100% and achievements"** in every guide, last in the rail: platform total, missables (linked to "Do this or lose it forever"), playthroughs, time to 100%, a roadmap, the grouped list with persisted ticks, and the rarest by global unlock rate. Hidden achievements are spoiler-gated.
 
+- **Where-lists are required**: every rationed thing the guide gives a total for gets a per-item list (where · how · needs · act · tick), with a verification check that each list's row count matches its total; per-area counts in walkthrough blocks; a currency tab (every permanent purchase, prices, total, spend order) for games whose currency is lost on death. Added after a Silksong guide shipped with totals but no locations.
+- Shared **checklist table** component in `page-build.md` (multi-list, `data-key` per list); the checker validates `data-key` prefixes.
+- Layout fix: the rail grid uses `minmax(0,1fr)` and `min-width:0` on its children — `1fr` let wide tables push every tab sideways on phones. The checker warns on the pattern, and the verification pass includes a 375px overflow check.
+
 ### game-guide-hub (new)
 - Keeps every guide in one private **Game Guides** page: a card per game, guides open inside the page, a dropdown for a game's variants.
 - `/game-guide-hub <game>`, `sync`, `remove`; legacy guides are handed to `game-guide` for upgrade, never edited by the hub.

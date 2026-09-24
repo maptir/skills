@@ -130,8 +130,9 @@ semantics and the keyboard behaviour survive intact.
 ```
 
 ```css
+.wrap > *{min-width:0}  /* a grid child sized to its widest table overflows the phone */
 @media (max-width:760px){
-  .wrap{grid-template-columns:1fr; gap:0}
+  .wrap{grid-template-columns:minmax(0,1fr); gap:0}
   .railbar{position:sticky; top:0; z-index:21; display:flex; gap:12px;
            align-items:center; background:var(--bg); padding:12px 0;
            border-bottom:1px solid var(--line-soft)}
@@ -194,6 +195,63 @@ Write the sentence so it survives the blur:
 > **Bad:** You need <span class="spoil">Puppet String from Scrapped Watchman, then spend it on the caliber</span>
 
 The second one hides the instruction, not the spoiler.
+
+**Why `minmax(0,1fr)` and not `1fr`:** `1fr` means `minmax(auto,1fr)`, so the
+column grows to fit its widest child. Guides are full of wide children — tables
+with a `min-width`, timelines, maps — each safely inside its own
+`overflow-x:auto` wrapper, and a `1fr` column still widens the whole page around
+them. Two guides shipped with every tab scrolling sideways on phones for exactly
+this reason.
+
+## Checklist tables
+
+Where-lists and the achievements tab share one component: a table with a tick
+box per row, a running "12 / 48" counter, and ticks persisted per list. Every
+list sits in its own root with a `data-key` of the form `<slug>:<list>`, and one
+script serves every root on the page.
+
+```html
+<div class="ach" data-key="hollow-knight-silksong:masks">
+  <div class="ach-stat ach-prog"><b data-ach-count>0 / 20</b><span>ticks live in this browser only</span></div>
+  <div class="ach-tw"><table>…
+    <tr><td class="ck"><input type="checkbox" data-ach="masks-1" aria-label="Mask Shard 1"></td> … </tr>
+  …</table></div>
+</div>
+```
+
+```js
+[].forEach.call(document.querySelectorAll('.ach[data-key]'), function (root) {
+  var KEY = root.getAttribute('data-key'), state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
+  var boxes = [].slice.call(root.querySelectorAll('input[data-ach]'));
+  var out = root.querySelector('[data-ach-count]');
+  function paint() {
+    var n = 0;
+    boxes.forEach(function (b) { if (b.checked) n++; var tr = b.closest('tr'); if (tr) tr.classList.toggle('done', b.checked); });
+    if (out) out.textContent = n + ' / ' + boxes.length;
+  }
+  boxes.forEach(function (b) {
+    var k = b.getAttribute('data-ach');
+    if (state[k]) b.checked = true;
+    b.addEventListener('change', function () {
+      state[k] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+      paint();
+    });
+  });
+  root.addEventListener('click', function (e) {   // "see how not to miss it" links to another tab
+    var g = e.target.closest ? e.target.closest('[data-goto]') : null;
+    var t = g && document.getElementById(g.getAttribute('data-goto'));
+    if (t) t.click();
+  });
+  paint();
+});
+```
+
+Style the table like the page's other tables; give the tick column ~34px, strike
+through the name of a ticked row at reduced opacity, and keep counts and
+percentages in the mono numeral face. `scripts/check_guide.py` verifies that
+every `data-key` starts with the slug.
 
 ## The ranked list
 

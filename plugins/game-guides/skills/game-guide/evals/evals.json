@@ -79,6 +79,13 @@
       "files": []
     },
     {
+      "id": 13,
+      "name": "metroidvania-where-lists",
+      "prompt": "ทำ guide Hollow Knight: Silksong ให้หน่อย เล่น PC ยังไม่เคยเล่น อยากเก็บของเยอะ ๆ แต่ไม่ถึง 100%",
+      "expected_output": "Besides the totals (20 Mask Shards, 18 Spool Fragments, 20 Memory Lockets, 3 Pale Oil, 30 Fleas, 4+4 pouch/kit upgrades), the guide has a where-list for each: one row per item with area, how obtained, required ability, act, and a persisted tick box; each list's row count equals its total or explains the difference. Area blocks in the walkthrough carry a per-area count line. A currency tab lists every permanent Rosary purchase with prices and a total. No Act-3 sub-area, vendor or boss name appears outside the spoiler gate. No tab scrolls sideways at 375px width.",
+      "files": []
+    },
+    {
       "id": 12,
       "name": "achievements-tab-by-default",
       "prompt": "ทำ guide Hollow Knight: Silksong ให้หน่อย เล่นบน PS5 เอาแค่จบเนื้อเรื่อง ไม่สนเก็บ 100%",

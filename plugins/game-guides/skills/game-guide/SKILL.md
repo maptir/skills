@@ -29,7 +29,12 @@ Three things, in priority order:
 2. **Every recommendation carries its budget.** "Upgrade this early" is advice.
    "There are 25 of these in the whole game and full upgrades cost 56, so you
    will open 11 of 20 nodes — here is the order" is a guide. Players trust
-   numbers they can verify against their own inventory.
+   numbers they can verify against their own inventory. **And every budget
+   comes with its where-list.** "20 Mask Shards exist" tells the player how far
+   they are from done; only the list of where each one is — area, how it is
+   obtained, what it needs, which act — lets them close the gap. A total without
+   its list is half the answer, and it is the half players already get from the
+   pause menu.
 
 3. **It respects what they have not seen yet.** A guide that spoils the game it
    is teaching has failed even if every fact is right.
@@ -207,7 +212,10 @@ reliable order, dropping whatever does not apply:
 3. **Things I wish I knew** — always
 4. **Pick your build/approach** — the real options with trade-offs, not one
    blessed path
-5. **The main progression system** — how it works, then the spend order
+5. **The main progression system** — how it works, the spend order, and the
+   where-list for each material it consumes (health upgrades, resource-meter
+   upgrades, weapon-upgrade materials, slot unlocks — one checklist each; see
+   `references/fixed-tabs.md` under "Where-lists")
 6. **Walk it area by area** — whenever the game's own difficulty is knowing
    where to go next: one tab holding the ability order, an area switcher, and
    per area a map with the route pinned on it. Mandatory for metroidvanias, and
@@ -217,7 +225,13 @@ reliable order, dropping whatever does not apply:
 8. **NPC questlines** — whenever the game has chains that advance on world
    progress rather than on a quest log (see 3c)
 9. **Irreversible choices** — the forks, laid out so both sides are visible
-10. **Route / collection lists** — where the limited things are
+10. **Route / collection lists** — where the limited things are: every
+    rationed thing that is not already listed in the progression tab
+    (collectibles, rescuables, keys, fast-travel nodes)
+10b. **What the currency buys** — whenever the game has a currency that is lost
+    on death or is otherwise precious: every permanent purchase with its price,
+    the total, and a spend order. It is the tab players reach for when they are
+    standing in a shop with money they are afraid to lose
 11. **Do this or lose it forever** — always
 12. **100% and achievements** — always, last
 
@@ -238,7 +252,8 @@ runs long, merge in this order and stop as soon as it fits:
    collectibles wants them in one list, not spread across fourteen area blocks.
 3. **Collection lists fold into "100% and achievements"** when every limited
    thing on them is also an achievement or a completion-percentage item; the
-   completion tab then carries the locations too.
+   completion tab then carries the locations too. A merge may move a
+   where-list; it never shrinks one to a count.
 4. **The four fixed tabs never merge, and the questline tab never merges into
    the missables table.** That last merge destroys the chain ordering, which is
    the entire reason the questline tab exists.
@@ -336,6 +351,18 @@ check specifically for:
   the easiest to catch. The achievements tab gets the same check: its groups
   must add up to the platform's stated total, and every achievement marked
   missable there must have its row in "Do this or lose it forever".
+- **A budget without its where-list.** Take every rationed thing the page gives
+  a total for — the budget table, the loop tab, the stat rows — and find its
+  where-list on the page. Missing lists get built; a list whose row count does
+  not equal the stated total gets fixed or explained ("21 rows: rows 4 and 5
+  are either/or"). This is the check that catches a guide that knows how many
+  but not where.
+- **Narrow-screen overflow.** At phone width the page body must not scroll
+  sideways on any tab. The usual cause is a grid column declared `1fr` (which
+  means `minmax(auto, 1fr)`) around a table or figure with a `min-width`; use
+  `minmax(0, 1fr)` and `min-width: 0` on the grid children. Load the page in a
+  375px-wide frame and flip through every tab, or read the CSS for this pattern
+  when you cannot render.
 - **Claims you inferred rather than read.** Anything you reasoned your way to
   ("so this must scale off X") needs a source or a hedge.
 - **Internal contradictions.** A cost quoted differently in two tabs; a plan

@@ -223,6 +223,12 @@ def check(path):
     # Simple string constants (var KEY = 'x') so KEY resolves to its value.
     consts = dict(re.findall(r"\b(?:var|let|const)\s+([A-Za-z_$][\w$]*)\s*=\s*['\"]([^'\"]*)['\"]", src))
     seen = set()
+    # Keys taken from data-key attributes (the checklist component): check the attributes themselves.
+    for var in re.findall(r"\b(?:var|let|const)\s+([A-Za-z_$][\w$]*)\s*=\s*\w+\.getAttribute\(\s*['\"]data-key['\"]\s*\)", src):
+        seen.add(var)
+    for key in re.findall(r'data-key="([^"]*)"', src):
+        if slug and not key.startswith(slug + ":"):
+            errors.append(f"data-key '{key}' must start with '{slug}:'")
     for m in re.finditer(r"localStorage\s*\.\s*(setItem|getItem|removeItem)\s*\(\s*([^,)]*)", src):
         op, arg = m.group(1), m.group(2).strip()
         lit = re.match(r"^(['\"`])(.*?)\1$", arg)
@@ -240,6 +246,12 @@ def check(path):
                 seen.add((op, key))
     if re.search(r"localStorage\s*\[", src):
         warnings.append("localStorage used with [] indexing — confirm keys start with the slug")
+
+    # Narrow-screen overflow: a `1fr` grid column grows to its widest child.
+    if re.search(r"grid-template-columns\s*:\s*1fr\s*[;}]", src) and not re.search(
+            r"(main|>\s*\*)\s*\{[^}]*min-width\s*:\s*0", src):
+        warnings.append("a grid uses `grid-template-columns:1fr` without `min-width:0` on its children — "
+                        "wide tables will make the page scroll sideways on phones; use minmax(0,1fr)")
 
     # Host-specific wording (common phrasings; not exhaustive).
     for phrase in ("private page", "หน้าส่วนตัว", "tell claude", "บอกได้ เดี๋ยวแก้"):

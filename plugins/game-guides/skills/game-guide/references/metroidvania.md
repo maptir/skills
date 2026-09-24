@@ -47,6 +47,15 @@ guide's best single figure) · upgrade material totals against full-upgrade cost
 collectibles per area, because a per-area count is what lets a player decide
 whether to sweep a region now or come back.
 
+**Every one of those totals becomes a where-list** (`fixed-tabs.md`, "Where-lists"):
+health fragments, resource-meter fragments, weapon-upgrade materials, slot
+unlocks, rescuables. This genre's players hunt the last fragment for hours, and
+the list — area, how, needed ability, act — is what ends the hunt. One tab can
+hold the health and meter lists together; the weapon material, slot unlocks and
+tool-capacity upgrades usually share a second. Do not let the walkthrough tab or
+a budget table stand in for them: the walkthrough is organised by area, the
+hunt is organised by item.
+
 The comparison that carries a metroidvania guide: **what the map asks of you
 versus what you can carry at that point.** State plainly which areas are
 survivable early and which will flatten a player who wanders in on schedule but

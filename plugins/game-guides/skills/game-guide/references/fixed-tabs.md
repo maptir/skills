@@ -226,6 +226,44 @@ players chase.
   in that browser only. Show a running "12 / 48" beside the stat row.
 - Keep global percentages in a mono numeral column; they are data, not prose.
 
+## Where-lists
+
+Not a tab of their own — the lists that live inside the progression, collection
+and completion tabs. Every rationed thing the guide gives a total for gets one:
+health upgrades, resource-meter upgrades, weapon-upgrade materials, slot
+unlocks, rescuables, keys. The first Hollow Knight guide earned its trust with
+these (masks and vessel fragments one per row); a guide that only prints "20
+exist" has told the player what the pause menu already says.
+
+What each list carries:
+
+| ✓ | # | Where | How | Needs | Act / chapter |
+|---|---|---|---|---|---|
+
+- **Where** — area plus a positional hint ("east of the bench", "behind the
+  breakable wall above the village"), never a room-by-room route.
+- **How** — found / bought for N from a vendor *role* / wish or quest reward /
+  boss drop. Vendor and NPC names that spoil go behind the gate; roles stay
+  visible.
+- **Needs** — the ability, key or event that must come first. This column is
+  what turns the list into a plan: the player filters it by what they already
+  have.
+- **Act / chapter** — so a player at the end of act 1 knows that holding 6 of 20
+  is normal, not a failure. Put that sentence above the list when the split is
+  lopsided.
+- **A tick box per row**, persisted under `<slug>:<list>`; see "Checklist tables"
+  in `page-build.md`, which the achievements tab uses too.
+- **Row count equals the stated total**, or the list says why not ("21 rows:
+  rows 4 and 5 are either/or").
+
+Late-game rows follow the walkthrough rule: the visible layer says the act and
+"needs an ability you get later"; the sub-area, NPC and reward names go behind
+the gate.
+
+When the game has area blocks (a walkthrough tab), add one line to each block
+counting what that area holds from each list — "masks 2 · spools 1 · fleas 3".
+It is the number a player uses to decide whether to sweep an area now.
+
 ## The questline tab
 
 Built only when the sweep in SKILL.md §3c comes back positive — the game has NPC
