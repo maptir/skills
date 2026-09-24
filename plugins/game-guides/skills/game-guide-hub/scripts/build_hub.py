@@ -24,6 +24,8 @@ What it does (standard library only):
                    but it is excluded from the manifest and its published files
                    are removed).
 --restore SLUG     undo an earlier --remove.
+--set-url URL      record the hub Artifact URL in hub.json (mode becomes "artifact");
+                   combine with --mark-published right after the first publish.
 --mark-published   after a successful Artifact publish, record the current file
                    hashes in hub.json so the next build only sends changes.
 """
@@ -148,7 +150,7 @@ def card_fields(meta):
 
 def main(argv):
     flags = [a for a in argv[1:] if a.startswith("--")]
-    lang, strings_file, removes, restores = "en", None, [], []
+    lang, strings_file, removes, restores, set_url = "en", None, [], [], None
     it = iter(argv[1:])
     positional = []
     for a in it:
@@ -160,6 +162,8 @@ def main(argv):
             removes.append(next(it, ""))
         elif a == "--restore":
             restores.append(next(it, ""))
+        elif a == "--set-url":
+            set_url = next(it, None)
         elif a == "--mark-published":
             pass
         else:
@@ -172,13 +176,15 @@ def main(argv):
     hub_path = os.path.join(root, "hub.json")
     hub = {}
     if os.path.isfile(hub_path):
-        with open(hub_path, encoding="utf-8") as f:
+        with open(hub_path, encoding="utf-8-sig") as f:  # tolerate a BOM from Windows editors
             hub = json.load(f)
     hub.setdefault("contract", max(SUPPORTED_CONTRACTS))
     hub.setdefault("mode", "local")
     hub.setdefault("url", None)
     hub.setdefault("published", {})
     hub.setdefault("removed", [])
+    if set_url:
+        hub["url"], hub["mode"] = set_url, "artifact"
     for r in removes:
         if r and r not in hub["removed"]:
             hub["removed"].append(r)

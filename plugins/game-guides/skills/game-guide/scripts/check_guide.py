@@ -220,15 +220,24 @@ def check(path):
 
     # localStorage keys.
     slug = meta.get("slug") if isinstance(meta, dict) and isinstance(meta.get("slug"), str) else None
+    # Simple string constants (var KEY = 'x') so KEY resolves to its value.
+    consts = dict(re.findall(r"\b(?:var|let|const)\s+([A-Za-z_$][\w$]*)\s*=\s*['\"]([^'\"]*)['\"]", src))
+    seen = set()
     for m in re.finditer(r"localStorage\s*\.\s*(setItem|getItem|removeItem)\s*\(\s*([^,)]*)", src):
-        arg = m.group(2).strip()
+        op, arg = m.group(1), m.group(2).strip()
         lit = re.match(r"^(['\"`])(.*?)\1$", arg)
-        if lit and "${" not in lit.group(2):
-            key = lit.group(2)
-            if slug and not key.startswith(slug + ":"):
+        key = lit.group(2) if lit and "${" not in lit.group(2) else consts.get(arg)
+        if key is None:
+            if arg not in seen:
+                warnings.append(f"localStorage key built from '{arg}' — confirm it starts with the slug")
+                seen.add(arg)
+            continue
+        if slug and not key.startswith(slug + ":"):
+            if op == "setItem":
                 errors.append(f"localStorage key '{key}' must start with '{slug}:'")
-        else:
-            warnings.append(f"localStorage key built from '{arg}' — confirm it starts with the slug")
+            elif (op, key) not in seen:
+                warnings.append(f"localStorage {op}('{key}') reads an un-prefixed key — fine only for migrating old saves")
+                seen.add((op, key))
     if re.search(r"localStorage\s*\[", src):
         warnings.append("localStorage used with [] indexing — confirm keys start with the slug")
 

@@ -116,8 +116,9 @@ Then:
      along the lines of "All my game guides in one place";
    - afterwards: pass the hub `url` (after a `read`) and omit `icon`;
    - `files`: `report.files`, with keys as given and values as the local paths.
-   Write the URL into `hub.json` (`url`, `mode: "artifact"`), then run the script
-   again with `--mark-published` so the next publish sends only changes.
+   Then run the script again with `--set-url <hub url> --mark-published`: it
+   records the URL in `hub.json` and the published file hashes, so the next
+   publish sends only changes.
 2. **No Artifact tool** — the local `game-guides/index.html` is the hub. It
    opens straight from disk. Tell the player where it is. If a later session
    has the Artifact tool, offer to publish it.
