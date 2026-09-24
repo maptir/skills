@@ -1,0 +1,11 @@
+{
+  "name": "game-guides",
+  "displayName": "Game Guides",
+  "description": "Spoiler-safe, personalised game guides built around each game's scarce resources and irreversible choices — plus a private hub that keeps every guide in one page.",
+  "version": "1.0.0",
+  "author": { "name": "maptir", "url": "https://github.com/maptir" },
+  "homepage": "https://github.com/maptir/skills/tree/main/plugins/game-guides",
+  "repository": "https://github.com/maptir/skills",
+  "license": "MIT",
+  "keywords": ["games", "guide", "spoiler-free", "walkthrough", "missables", "artifact"]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "maptir-skills",
+  "owner": { "name": "maptir", "url": "https://github.com/maptir" },
+  "description": "Claude skills by maptir.",
+  "plugins": [
+    {
+      "name": "game-guides",
+      "source": "./plugins/game-guides",
+      "description": "Spoiler-safe game guides built around scarce resources and irreversible choices, plus a private hub that keeps every guide in one page.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": ["games", "guide", "spoiler-free"]
+    }
+  ]
+}

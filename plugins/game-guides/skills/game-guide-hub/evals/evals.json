@@ -1,0 +1,44 @@
+{
+  "skill_name": "game-guide-hub",
+  "evals": [
+    {
+      "id": 0,
+      "name": "new-guide-into-new-hub",
+      "prompt": "/game-guide-hub Hades II — first run, just make it, no questions.",
+      "expected_output": "Checks game-guide is available, then hands the request to game-guide (does not write guide content itself). After game-guides/hades-ii/ exists, runs build_hub.py, publishes game-guides/index.html as a new Artifact titled 'Game Guides' with every guide file as a supporting file at its relative path, writes the URL into hub.json and runs --mark-published. Reply gives both the guide link and the hub link.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "sync-legacy-guide-needs-upgrade",
+      "prompt": "/game-guide-hub sync",
+      "files": ["game-guides/lens-island/index.html", "game-guides/hades-ii/index.html"],
+      "expected_output": "Build report puts hades-ii in ok and lens-island in needs_upgrade (no guide-meta). Lists the legacy guide and offers the upgrade instead of editing it; on yes, hands it to game-guide as a contract upgrade with no other changes, rebuilds, and publishes only the changed files (report.files). The hub page shows both games once upgraded.",
+      "setup": "lens-island is an old HTML fragment without guide-meta; hades-ii is a contract-v1 guide."
+    },
+    {
+      "id": 2,
+      "name": "no-artifact-local-hub",
+      "prompt": "/game-guide-hub sync (session has no Artifact tool — e.g. Claude Code on an API key)",
+      "files": ["game-guides/hades-ii/index.html"],
+      "expected_output": "Does not try to publish or pretend it published. Builds game-guides/index.html, leaves hub.json mode 'local', tells the player the hub opens straight from disk and that it can be published later from a session that has Artifacts.",
+      "setup": "Run without the Artifact tool."
+    },
+    {
+      "id": 3,
+      "name": "dlc-variant-dropdown",
+      "prompt": "/game-guide-hub sync",
+      "files": ["game-guides/elden-ring/index.html", "game-guides/elden-ring--shadow-of-the-erdtree/index.html"],
+      "expected_output": "One Elden Ring card, not two; opening it shows the base guide with a variant dropdown offering the DLC guide. Both guides are published as supporting files.",
+      "setup": "Both guides are contract v1 with game 'elden-ring'."
+    },
+    {
+      "id": 4,
+      "name": "too-new-contract-skipped",
+      "prompt": "/game-guide-hub sync",
+      "files": ["game-guides/future-game/index.html"],
+      "expected_output": "Reports future-game as too_new (contract 2), skips it without guessing at its fields, and tells the player to update the hub skill.",
+      "setup": "future-game has guide-meta.contract = 2."
+    }
+  ]
+}

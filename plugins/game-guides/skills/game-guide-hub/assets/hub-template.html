@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="__LANG__">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Game Guides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#eef1ef; --surface:#fbfcfb; --ink:#14191c; --ink-soft:#4a555b; --ink-faint:#6f7a80;
+  --line:#cfd6d4; --line-soft:#e1e6e4; --accent:#0d6f78; --accent-soft:#d5ebec; --accent-ink:#ffffff;
+  --warn:#8a5a00;
+  --display:"Bai Jamjuree", "IBM Plex Sans Thai", system-ui, sans-serif;
+  --body:"IBM Plex Sans Thai", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Menlo, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101417; --surface:#171d21; --ink:#e7ecec; --ink-soft:#a9b4b8; --ink-faint:#83909a;
+    --line:#2b353b; --line-soft:#20282d; --accent:#52c3cc; --accent-soft:#16363a; --accent-ink:#071517;
+    --warn:#e0b050; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101417; --surface:#171d21; --ink:#e7ecec; --ink-soft:#a9b4b8; --ink-faint:#83909a;
+  --line:#2b353b; --line-soft:#20282d; --accent:#52c3cc; --accent-soft:#16363a; --accent-ink:#071517;
+  --warn:#e0b050; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 var(--body)}
+button,input,select{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* Shelf */
+.shelf{max-width:1120px; margin:0 auto; padding:0 16px; padding-block:32px 48px}
+.head{display:flex; flex-wrap:wrap; gap:16px 32px; align-items:end; justify-content:space-between;
+      padding-bottom:20px; border-bottom:1px solid var(--line)}
+.head h1{margin:0; font:700 clamp(1.8rem,4vw,2.4rem)/1.1 var(--display); letter-spacing:-.01em; text-wrap:balance}
+.head p{margin:6px 0 0; color:var(--ink-soft)}
+.count{font:500 .82rem var(--mono); color:var(--ink-faint); letter-spacing:.04em; text-transform:uppercase}
+.search{flex:1 1 240px; max-width:340px}
+.search input{width:100%; padding:10px 14px; border:1px solid var(--line); border-radius:8px;
+              background:var(--surface); min-height:44px}
+.search input::placeholder{color:var(--ink-faint)}
+.grid{list-style:none; margin:24px 0 0; padding:0; display:grid; gap:16px;
+      grid-template-columns:repeat(auto-fill, minmax(min(100%,280px),1fr))}
+.card{display:flex; flex-direction:column; gap:10px; width:100%; height:100%; text-align:left;
+      padding:18px 18px 16px; background:var(--surface); border:1px solid var(--line-soft);
+      border-radius:10px; cursor:pointer; transition:border-color .15s, transform .15s}
+.card:hover{border-color:var(--accent); transform:translateY(-1px)}
+.card h2{margin:0; font:600 1.2rem/1.25 var(--display); text-wrap:balance}
+.card .sum{margin:0; color:var(--ink-soft); font-size:.95rem;
+           display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+.facts{display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:auto; padding-top:10px;
+       border-top:1px dashed var(--line); font:400 .78rem/1.4 var(--mono); color:var(--ink-faint);
+       font-variant-numeric:tabular-nums}
+.facts b{font-weight:500; color:var(--ink-soft)}
+.chip{display:inline-block; padding:1px 8px; border-radius:99px; background:var(--accent-soft);
+      color:var(--accent); font:500 .72rem/1.6 var(--mono); letter-spacing:.03em}
+.empty{margin:48px 0; color:var(--ink-soft)}
+
+/* Reader */
+.reader{position:fixed; inset:0; display:flex; flex-direction:column; background:var(--bg); z-index:10}
+.bar{display:flex; align-items:center; gap:10px 16px; flex-wrap:wrap;
+     padding:8px 16px; padding-top:calc(8px + env(safe-area-inset-top, 0px));
+     background:var(--surface); border-bottom:1px solid var(--line)}
+.bar .back{border:1px solid var(--line); background:none; border-radius:8px; padding:6px 12px;
+           min-height:40px; cursor:pointer; color:var(--ink-soft)}
+.bar .back:hover{color:var(--ink); border-color:var(--accent)}
+.bar .title{font:600 1.05rem var(--display); margin-right:auto; min-width:0;
+            white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.bar label{display:flex; align-items:center; gap:8px; font-size:.85rem; color:var(--ink-faint)}
+.bar select{padding:6px 10px; border:1px solid var(--line); border-radius:8px; background:var(--bg); min-height:40px; max-width:60vw}
+.bar a{color:var(--accent); font-size:.85rem; text-underline-offset:3px}
+.frame{flex:1; width:100%; border:0; background:var(--bg)}
+@media (max-width:560px){
+  .bar{gap:6px 8px; padding-block:6px}
+  .bar .title{flex-basis:100%; order:-1}
+  .bar label{flex:1; min-width:0} .bar label span{display:none}
+  .bar select{width:100%; max-width:none}
+}
+@media (prefers-reduced-motion:reduce){ .card{transition:none} .card:hover{transform:none} }
+</style>
+</head>
+<body>
+<main class="shelf" id="shelf">
+  <header class="head">
+    <div>
+      <h1 id="h"></h1>
+      <p id="dek"></p>
+      <div class="count" id="count"></div>
+    </div>
+    <div class="search"><input id="q" type="search" autocomplete="off"></div>
+  </header>
+  <ul class="grid" id="grid"></ul>
+  <p class="empty" id="empty" hidden></p>
+</main>
+
+<section class="reader" id="reader" hidden>
+  <div class="bar">
+    <button class="back" id="back" type="button"></button>
+    <span class="title" id="rtitle"></span>
+    <label id="vwrap" hidden><span id="vlabel"></span><select id="variant"></select></label>
+    <a id="solo" target="_blank" rel="noopener"></a>
+  </div>
+  <iframe class="frame" id="frame" title=""></iframe>
+</section>
+
+<script type="application/json" id="hub-manifest">/*__HUB_MANIFEST__*/{}</script>
+<script>
+(function(){
+  var M = {};
+  try { M = JSON.parse(document.getElementById('hub-manifest').textContent.replace('/*__HUB_MANIFEST__*/','')); } catch(e) {}
+  var S = M.strings || {}, G = M.guides || [];
+  var $ = function(id){ return document.getElementById(id); };
+
+  // Group guides by game; the newest guide of each game fronts its card.
+  var games = [], byGame = {};
+  G.forEach(function(g){
+    if (!byGame[g.game]) { byGame[g.game] = []; games.push(g.game); }
+    byGame[g.game].push(g);
+  });
+  games.forEach(function(k){
+    byGame[k].sort(function(a,b){
+      if (a.slug === k) return -1; if (b.slug === k) return 1;   // main game first
+      return (b.updated||'').localeCompare(a.updated||'');
+    });
+  });
+  var bySlug = {}; G.forEach(function(g){ bySlug[g.slug] = g; });
+
+  $('h').textContent = S.heading || 'Game Guides';
+  $('dek').textContent = S.dek || '';
+  $('count').textContent = games.length + ' · ' + G.length + ' ' + (S.guides || 'guides');
+  $('q').placeholder = S.search || 'Search';
+  $('q').setAttribute('aria-label', S.search || 'Search');
+  $('back').textContent = '← ' + (S.back || 'All guides');
+  $('vlabel').textContent = S.variant || 'Guide';
+  $('solo').textContent = (S.standalone || 'Open on its own') + ' ↗';
+
+  function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function fact(label, value){ var s = el('span'); s.append(label + ' '); s.append(el('b', null, value)); return s; }
+
+  function renderGrid(){
+    var q = $('q').value.trim().toLowerCase(), grid = $('grid'), shown = 0;
+    grid.textContent = '';
+    games.forEach(function(k){
+      var list = byGame[k], lead = list[0];
+      var hay = list.map(function(g){ return [g.title, g.summary, g.variant, g.platform].join(' '); }).join(' ').toLowerCase();
+      if (q && hay.indexOf(q) < 0) return;
+      shown++;
+      var li = el('li'), b = el('button', 'card'); b.type = 'button';
+      b.append(el('h2', null, lead.title));
+      b.append(el('p', 'sum', lead.summary || ''));
+      var f = el('div', 'facts');
+      f.append(fact(S.version || 'Version', lead.game_version && lead.game_version !== 'unknown' ? lead.game_version : (S.unknown || 'unknown')));
+      var newest = list.reduce(function(m, g){ return (g.updated || '') > m ? g.updated : m; }, '');
+      f.append(fact(S.updated || 'Updated', newest || '—'));
+      f.append(el('span', 'chip', (lead.lang || '').toUpperCase()));
+      if (list.length > 1) f.append(el('span', 'chip', list.length + ' ' + (S.guides || 'guides')));
+      b.append(f);
+      b.addEventListener('click', function(){ location.hash = lead.slug; });
+      li.append(b); grid.append(li);
+    });
+    $('empty').hidden = shown > 0;
+    $('empty').textContent = G.length ? (S.nomatch || 'No match.') : (S.empty || 'No guides yet.');
+  }
+
+  function open(slug){
+    var g = bySlug[slug];
+    if (!g) { close(); return; }
+    var list = byGame[g.game];
+    $('rtitle').textContent = g.title;
+    var sel = $('variant'); sel.textContent = '';
+    list.forEach(function(v){ var o = el('option', null, v.variant || v.slug); o.value = v.slug; o.selected = v.slug === slug; sel.append(o); });
+    $('vwrap').hidden = list.length < 2;
+    $('solo').href = g.artifact_url || (g.slug + '/index.html');
+    var frame = $('frame'), src = g.slug + '/index.html';
+    if (frame.getAttribute('src') !== src) frame.setAttribute('src', src);
+    frame.title = g.title + (list.length > 1 ? ' — ' + g.variant : '');
+    $('reader').hidden = false; $('shelf').hidden = true;
+    document.title = g.title + ' · ' + (S.heading || 'Game Guides');
+  }
+  function close(){
+    $('reader').hidden = true; $('shelf').hidden = false;
+    document.title = S.heading || 'Game Guides';
+  }
+  function route(){ var h = decodeURIComponent(location.hash.slice(1)); if (h) open(h); else close(); }
+
+  $('variant').addEventListener('change', function(e){ location.hash = e.target.value; });
+  $('back').addEventListener('click', function(){
+    if (history.length > 1 && location.hash) { location.hash = ''; } else { close(); }
+  });
+  $('q').addEventListener('input', renderGrid);
+  window.addEventListener('hashchange', route);
+  renderGrid(); route();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+{
+  "skill_name": "game-guide",
+  "evals": [
+    {
+      "id": 0,
+      "name": "jrpg-first-time-spoiler-strict",
+      "prompt": "กำลังจะเริ่มเล่น Metaphor: ReFantazio ครั้งแรก ยังไม่เคยแตะซีรีส์นี้เลย ทำ guide ให้หน่อยว่าต้องรู้อะไรบ้างก่อนเริ่ม ระบบมันเยอะมากไม่รู้จะโฟกัสอะไร แล้วขอแบบไม่สปอยเนื้อเรื่องเลยนะ อยากเจอเองในเกม",
+      "expected_output": "Tabbed artifact guide. Systems + calendar pressure + archetype/build direction + missables, with story-revealing proper nouns behind a click-to-reveal gate. Visible layer must read completely on its own.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "management-opening-order",
+      "prompt": "ซื้อ Manor Lords มาแล้วเล่นตายรัวๆ เมืองอดตายทุกรอบ ช่วยทำคู่มือให้หน่อยว่าชั่วโมงแรกควรสร้างอะไรตามลำดับไหน แล้วมีอะไรที่พลาดแล้วแก้ไม่ได้บ้าง เล่นบน PC patch ล่าสุด",
+      "expected_output": "Guide centred on opening build order with timings, the ratio the economy turns on, world/difficulty settings that lock at start, and death-spiral warning signs. Not an item dump.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "roguelite-meta-unlock-order",
+      "prompt": "เล่น Balatro ไป 20 ชั่วโมงแล้วยังติด ante 8 ตลอด อยากได้ guide ว่าควรปลดอะไรก่อนหลัง กับหลักการเลือก joker ตอนที่มือยังไม่เข้ารูป",
+      "expected_output": "Meta-unlock order with the pool-dilution warning, decision heuristics for early picks rather than a fixed tier list, and a note on when optimisation stops mattering.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "farming-sim-calendar-deadlines",
+      "prompt": "เพิ่งเริ่ม Stardew Valley วันที่ 3 ฤดูใบไม้ผลิ ทำ guide ปีแรกให้หน่อย ขอเป็นวันๆ ไปเลยว่าห้ามพลาดอะไร แต่อย่าสปอยเรื่องตัวละครนะ",
+      "expected_output": "Calendar-first guide with dated deadlines, finite vs renewable resources, early bottleneck named, and character/event content gated behind spoiler reveals.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "souls-questline-spoiler-safe",
+      "prompt": "กำลังจะเริ่ม Elden Ring ครั้งแรก ได้ยินมาว่าเควส NPC พลาดง่ายมาก ทำ guide ให้หน่อยว่าต้องคุยกับใครก่อนฆ่าบอสตัวไหน แต่อย่าบอกว่าใครเป็นใครหรือจบยังไงนะ อยากเจอเอง เล่น PC patch ล่าสุด",
+      "expected_output": "Questline tab as one card per NPC: ordered steps, each with its deadline named as a world event, a 'breaks if' line, and reward type visible with the name gated. NPC identities and chain outcomes sit behind the spoiler gate while every step stays followable with all blurs closed. The three fixed tabs are present, with the pre-start tab covering class/keepsake and what is changeable later.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "no-missables-honest-empty-tab",
+      "prompt": "เพิ่งซื้อ Factorio อยากได้ guide ว่าควรรู้อะไรก่อนเริ่ม กลัวเล่นไปแล้วพลาดอะไรที่แก้ไม่ได้",
+      "expected_output": "'Do this or lose it forever' opens by saying the game locks almost nothing and names what it rations instead — time, early base geometry, map settings chosen at generation — rather than padding the tab with invented stakes. Before-you-start tab carries the world-gen and difficulty settings. No questline tab, with the negative sweep confirmed rather than assumed.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "thin-sources-no-fabricated-numbers",
+      "prompt": "เกม indie เพิ่งออก early access อาทิตย์ที่แล้ว ยังไม่มี wiki เลย ทำ guide ให้หน่อยว่าควรเล่นยังไง ของอัปเกรดมีกี่ชิ้น ควรทุ่มอะไรก่อน",
+      "expected_output": "No invented totals, caps or costs anywhere, including hedged ones. Says on the page which parts are well sourced and which are thin. Ships a smaller guide of structural advice plus whatever is actually verifiable, and offers to update once sources appear. Does not pad tabs to look complete, and does not ask the player for the counts it was supposed to research.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "update-existing-guide-same-url",
+      "prompt": "guide Lies of P ที่ทำให้เมื่อเดือนก่อน ตอนนี้เล่นถึงช่วงท้ายแล้ว อยากให้เพิ่มพวกบอสช่วงหลังกับอัปเดตเลข caliber ให้ตรง patch ใหม่",
+      "expected_output": "Keeps the same slug and folder, bumps guide-meta.updated, and republishes the same artifact URL instead of creating a second page. Re-checks the quoted numbers against the current patch and states plainly what changed. Extends the spoiler line to match how far the player has now got rather than ungating the whole page, and keeps content they still have not reached behind the gate.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "gacha-pull-budget-no-fomo",
+      "prompt": "เพิ่งโหลด Honkai: Star Rail มาเล่น ไม่เคยเล่นเกม gacha มาก่อน ทำ guide ให้หน่อยว่าควรเก็บ jade ไว้รอใคร กับมีอะไรที่พลาดแล้วหายถาวรบ้าง ไม่เติมเงินนะ",
+      "expected_output": "Budget expressed as income per patch cycle against the cost of one guarantee, not as a fixed total. Pity rules stated with numbers. Pull advice given as a decision rule that works without knowing the player pity count, not as a fixed save-for list. Distinguishes what genuinely never returns from what reruns, rather than treating every banner as unmissable. Pre-start tab covers region, binding, reroll window and active codes. Never recommends spending money. Numbers carry a patch and a date.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "name": "contract-v1-output",
+      "prompt": "Just finished installing Hades II. Make me a guide for my first run — just make it, don't ask me anything.",
+      "expected_output": "Writes game-guides/hades-ii/index.html as a full HTML document (doctype, <html lang=\"en\">, charset, viewport) with exactly one guide-meta JSON block holding every required field (contract 1, slug hades-ii, game hades-ii, variant, title 'Hades II', lang en, summary, game_version or \"unknown\", updated as YYYY-MM-DD, spoiler_gate true, sources with names). No base64 images, only relative asset paths, localStorage keys (if any) prefixed 'hades-ii:'. scripts/check_guide.py reports 0 errors. Publishes an Artifact when the tool exists and writes its URL into guide-meta.artifact.url. Lists the defaults it assumed.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "name": "dlc-is-a-variant-completion-is-a-tab",
+      "prompt": "I have your Elden Ring guide already. Now I'm starting Shadow of the Erdtree — make a guide for the DLC. Also, later I'll want the 100% checklist for the base game.",
+      "expected_output": "Builds the DLC as a separate guide with slug 'elden-ring--shadow-of-the-erdtree', game 'elden-ring' and its own variant label, in its own folder. Does not create a separate guide for 100% completion; says it will be a Completion tab added to the existing base-game guide (same slug, same URL, updated date bumped).",
+      "files": []
+    },
+    {
+      "id": 11,
+      "name": "legacy-guide-upgrade",
+      "prompt": "Update my old Lies of P guide (it's in game-guides/lies-of-p/) — the Legion Arm numbers changed in the last patch.",
+      "files": ["game-guides/lies-of-p/index.html"],
+      "expected_output": "Notices the page predates the output contract (fragment, no guide-meta, base64 icons). As part of the update: wraps it in a full document with lang, infers guide-meta from the page and shows the inferred fields, moves the embedded icons to images/*.png referenced from <symbol><image href>, prefixes localStorage keys with 'lies-of-p:' while carrying saved values over, removes host-specific footer wording. Then makes the requested number change, states what changed, keeps the same slug and republishes the same Artifact URL. check_guide.py reports 0 errors."
+    }
+  ]
+}
