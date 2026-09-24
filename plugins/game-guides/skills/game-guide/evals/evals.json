@@ -33,7 +33,7 @@
       "id": 4,
       "name": "souls-questline-spoiler-safe",
       "prompt": "กำลังจะเริ่ม Elden Ring ครั้งแรก ได้ยินมาว่าเควส NPC พลาดง่ายมาก ทำ guide ให้หน่อยว่าต้องคุยกับใครก่อนฆ่าบอสตัวไหน แต่อย่าบอกว่าใครเป็นใครหรือจบยังไงนะ อยากเจอเอง เล่น PC patch ล่าสุด",
-      "expected_output": "Questline tab as one card per NPC: ordered steps, each with its deadline named as a world event, a 'breaks if' line, and reward type visible with the name gated. NPC identities and chain outcomes sit behind the spoiler gate while every step stays followable with all blurs closed. The three fixed tabs are present, with the pre-start tab covering class/keepsake and what is changeable later.",
+      "expected_output": "Questline tab as one card per NPC: ordered steps, each with its deadline named as a world event, a 'breaks if' line, and reward type visible with the name gated. NPC identities and chain outcomes sit behind the spoiler gate while every step stays followable with all blurs closed. The four fixed tabs are present, with the pre-start tab covering class/keepsake and what is changeable later.",
       "files": []
     },
     {
@@ -75,7 +75,14 @@
       "id": 10,
       "name": "dlc-is-a-variant-completion-is-a-tab",
       "prompt": "I have your Elden Ring guide already. Now I'm starting Shadow of the Erdtree — make a guide for the DLC. Also, later I'll want the 100% checklist for the base game.",
-      "expected_output": "Builds the DLC as a separate guide with slug 'elden-ring--shadow-of-the-erdtree', game 'elden-ring' and its own variant label, in its own folder. Does not create a separate guide for 100% completion; says it will be a Completion tab added to the existing base-game guide (same slug, same URL, updated date bumped).",
+      "expected_output": "Builds the DLC as a separate guide with slug 'elden-ring--shadow-of-the-erdtree', game 'elden-ring' and its own variant label, in its own folder. Does not create a separate guide for 100% completion; points to the '100% and achievements' tab the base-game guide already has, and offers to deepen that tab (same slug, same URL, updated date bumped). The DLC guide gets its own achievements tab covering only the DLC's achievements.",
+      "files": []
+    },
+    {
+      "id": 12,
+      "name": "achievements-tab-by-default",
+      "prompt": "ทำ guide Hollow Knight: Silksong ให้หน่อย เล่นบน PS5 เอาแค่จบเนื้อเรื่อง ไม่สนเก็บ 100%",
+      "expected_output": "Guide still ends with a '100% and achievements' tab even though the goal is story-only. Stat row gives the PS5 trophy total, missable count, playthroughs needed and time to 100%, citing a trophy site. Roadmap in 3–5 stages with every missable in the first stage. Groups add up to the stated total. Hidden trophies and anything naming late bosses or endings are behind the spoiler gate while the 'how' stays readable. Each missable trophy links to its row in 'Do this or lose it forever' rather than repeating the instructions. Checkboxes persist under 'hollow-knight-silksong:achievements'.",
       "files": []
     },
     {

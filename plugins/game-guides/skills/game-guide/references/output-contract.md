@@ -87,8 +87,8 @@ Example:
 
 - **Updating** a guide keeps its `slug`. Overwrite the same folder, bump
   `updated`, republish the same Artifact URL.
-- **100% completion** is a Completion tab inside the existing guide, not a new
-  guide.
+- **100% completion** is the "100% and achievements" tab every guide already
+  has, not a new guide.
 - **A DLC, or a genuinely different kind of run**, gets its own guide: a new
   `slug` with a `--` suffix (`elden-ring--shadow-of-the-erdtree`), the same
   `game`, and its own `variant`. The hub shows these as a dropdown under one

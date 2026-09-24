@@ -12,6 +12,7 @@ First packaged release.
 - `artifact-design` / `artifact-diagramming` are optional; `page-build.md` carries a design baseline for when they are absent.
 - `scripts/check_guide.py` checks a guide against the contract.
 - Image-credit warning on delivery when a guide ships studio or wiki images.
+- New fixed tab **"100% and achievements"** in every guide, last in the rail: platform total, missables (linked to "Do this or lose it forever"), playthroughs, time to 100%, a roadmap, the grouped list with persisted ticks, and the rarest by global unlock rate. Hidden achievements are spoiler-gated.
 
 ### game-guide-hub (new)
 - Keeps every guide in one private **Game Guides** page: a card per game, guides open inside the page, a dropdown for a game's variants.

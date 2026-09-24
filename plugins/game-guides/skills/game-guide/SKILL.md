@@ -136,7 +136,11 @@ Read `references/research.md` before starting. The short version:
   silently pick one — a confidently wrong count is the failure mode players
   punish hardest.
 - Hunt specifically for the scarcity structure: totals, caps, one-time choices,
-  chapter lockouts, points of no return. Search terms like "all X locations",
+  chapter lockouts, points of no return. Pull the achievement list for the
+  player's platform too (Steam, PlayStation and Xbox lists can differ in count
+  and wording) from a trophy/achievement site plus the platform's own page —
+  missable achievements are one of the best maps of a game's one-way doors, and
+  the global unlock percentages show which ones players actually miss. Search terms like "all X locations",
   "missable", "point of no return", "how many X in the game".
 - Note the patch the sources describe. Say so in the page footer.
 - **When the sources are not there, say so and shrink the guide.** New,
@@ -179,14 +183,17 @@ this particular game actually makes you decide. A deckbuilder has no
 that each tab should answer a question the player will actually ask, in the
 order they will ask it.
 
-Three tabs are always there regardless of genre, because every player asks
-these three questions about every game:
+Four tabs are always there regardless of genre, because every player asks
+these four questions about every game:
 
 - **"Before you start"** — first tab, read before the game launches
 - **"Things I wish I knew"** — third, right after the loop tab
-- **"Do this or lose it forever"** — at the end
+- **"Do this or lose it forever"** — second to last
+- **"100% and achievements"** — last: what full completion takes, even for a
+  player who only means to finish the story, because the day they change their
+  mind the missable ones are usually already gone
 
-All three are covered in their own section below; build them for every guide,
+All four are covered in their own section below; build them for every guide,
 even when one of them comes out short.
 
 Between them, tabs come from what this particular game makes you decide. A
@@ -212,9 +219,9 @@ reliable order, dropping whatever does not apply:
 9. **Irreversible choices** — the forks, laid out so both sides are visible
 10. **Route / collection lists** — where the limited things are
 11. **Do this or lose it forever** — always
-12. **Completion** — only if they asked for it
+12. **100% and achievements** — always, last
 
-**Budget: twelve tabs.** Three fixed plus a questline tab leaves about eight for
+**Budget: twelve tabs.** Four fixed plus a questline tab leaves about seven for
 everything else, and `references/page-build.md` puts the rail's hard ceiling at
 fifteen. Games with many systems blow straight through that, so when the list
 runs long, merge in this order and stop as soon as it fits:
@@ -229,16 +236,16 @@ runs long, merge in this order and stop as soon as it fits:
    table belongs inside it rather than in a tab of its own — but it never
    absorbs the collection lists, because a player sweeping for the last four
    collectibles wants them in one list, not spread across fourteen area blocks.
-3. **Completion appends to "Do this or lose it forever"** instead of standing
-   alone — unless they asked for full completion, in which case it stays and
-   something else merges.
-4. **The three fixed tabs never merge, and the questline tab never merges into
+3. **Collection lists fold into "100% and achievements"** when every limited
+   thing on them is also an achievement or a completion-percentage item; the
+   completion tab then carries the locations too.
+4. **The four fixed tabs never merge, and the questline tab never merges into
    the missables table.** That last merge destroys the chain ordering, which is
    the entire reason the questline tab exists.
 
-### 3b. The three tabs every guide has
+### 3b. The four tabs every guide has
 
-Three tabs exist in every guide regardless of genre.
+Four tabs exist in every guide regardless of genre.
 `references/fixed-tabs.md` holds the quality bar and the render spec for each —
 read it when you lay out the tab list. What has to be settled here is only which
 of them a given fact belongs to, because they cover adjacent ground:
@@ -249,13 +256,18 @@ of them a given fact belongs to, because they cover adjacent ground:
 | A one-way door met during play | Do this or lose it forever |
 | A mechanic the game never explains | Things I wish I knew |
 | The routine repeated every session, and the budget | The loop and the budget |
+| An achievement, trophy or completion-% requirement | 100% and achievements |
+| A **missable** achievement | Both: the row lives in "Do this or lose it forever" (that is where the player is standing when the window shuts), and the achievements tab marks it missable and links to that row |
 
 When something genuinely fits two, put it where the player is standing when they
 need it, and cross-reference rather than duplicating.
 
-Build all three even when one comes out short. A thin "Do this or lose it
+Build all four even when one comes out short. A thin "Do this or lose it
 forever" is a finding about the game, not a gap in the guide, and
-`fixed-tabs.md` says how to write it so it reads that way.
+`fixed-tabs.md` says how to write it so it reads that way. The same goes for a
+game with no achievement system at all — the completion tab then covers the
+game's own completion percentage or checklist, and says in one line that there
+are no platform achievements.
 
 ### 3c. NPC questlines — sweep every game, tab it when it earns one
 
@@ -321,7 +333,9 @@ check specifically for:
 
 - **Totals that do not sum.** If a table lists locations for a resource, add them
   up and compare to the stated total. Mismatches are the most common error and
-  the easiest to catch.
+  the easiest to catch. The achievements tab gets the same check: its groups
+  must add up to the platform's stated total, and every achievement marked
+  missable there must have its row in "Do this or lose it forever".
 - **Claims you inferred rather than read.** Anything you reasoned your way to
   ("so this must scale off X") needs a source or a hedge.
 - **Internal contradictions.** A cost quoted differently in two tabs; a plan
@@ -448,8 +462,10 @@ now cares about. Keep the same `slug`: overwrite `game-guides/<slug>/`, bump
 `guide-meta.updated`, and republish the same artifact URL rather than creating a
 second page; a guide that lives at one link is a guide they can bookmark.
 
-**What counts as the same guide.** Adding 100% completion to a guide is a new
-Completion tab, not a new guide. A DLC or a separate kind of run that deserves
+**What counts as the same guide.** 100% completion already has its own tab in
+every guide; going deeper on it (a full route, every collectible location) is
+an update to that tab, not a new guide. A guide built before the tab was
+standard gets it added on its next update. A DLC or a separate kind of run that deserves
 its own guide gets a new `slug` with a suffix (`elden-ring--shadow-of-the-erdtree`),
 the same `game`, and its own `variant` label — `references/output-contract.md`
 has the rules.

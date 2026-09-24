@@ -1,6 +1,6 @@
 # The fixed tabs
 
-Quality bars for the three tabs every guide has, plus the questline tab when a
+Quality bars for the four tabs every guide has, plus the questline tab when a
 game earns one. SKILL.md decides *whether* each of these exists and what belongs
 in which; this file decides what makes each one good. Read it when you lay out
 the tab list, before writing.
@@ -155,6 +155,76 @@ When the game locks almost nothing, open the tab with a short paragraph saying
 so and naming what it rations instead, then show whatever small table remains.
 An honest near-empty tab is worth more than a padded one; the player reads it
 and relaxes, which is a real outcome.
+
+## "100% and achievements"
+
+The last tab, in every guide. It answers "what would it take to get
+everything?" — asked by the completionist on day one and by everyone else the
+moment they enjoy the game enough to want more. Build it even when the player
+said their goal is the story: the tab is cheap to skip, and the one thing it
+protects them from — a missable achievement already gone by the time they care
+— cannot be fixed later.
+
+What it holds, in this order:
+
+- **The headline numbers.** Total achievements/trophies on the player's
+  platform, how many are missable, the minimum number of playthroughs, whether
+  a difficulty setting is required, and the typical time to 100% from a
+  completionist site. Say which platform the list is for; Steam, PlayStation
+  and Xbox lists differ.
+- **The roadmap.** The order that gets everything in the fewest runs: what to
+  do on the first playthrough (always including every missable), what to clean
+  up after the credits or in NG+, and what to leave for last (grinds, hardest
+  difficulty, online). Three to five stages; each names the stage's
+  achievements by count, not by list.
+- **The list itself**, grouped by type — story (unmissable), missable,
+  collectible, cumulative/grind, difficulty, online — with each group's count
+  shown so the groups visibly add up to the total.
+- **The rarest few** by global unlock percentage when the platform publishes
+  it, with one line on why each is rare. That is where players actually get
+  stuck, and it is worth more than any tier of difficulty rating.
+- **What the game counts as 100% in-game**, if it has its own completion
+  percentage, and how it differs from the achievement list — they often do not
+  match, and players chasing one assume the other.
+
+**Missables live in two places on purpose.** The row with trigger, window and
+signal lives in "Do this or lose it forever", because that is where the player
+is when the window shuts. Here, the achievement carries a missable marker and a
+link to that row — never a second copy of the instructions, which would drift.
+
+**Spoilers.** Hidden achievements exist because their names or conditions spoil
+something. Keep the visible layer to the category and what to do ("beat the
+optional boss in the fourth area without resting"), and gate the achievement's
+name and anything naming a story character, ending or late area. Ending-based
+achievements say "one per ending — N endings" visibly and gate each ending's
+name. The spoiler checks in SKILL.md §5 apply here like anywhere else.
+
+**When the game has no achievement system** (some console-exclusive, older or
+DRM-free releases), say so in one line and build the tab around the game's own
+completion measure — a percentage, a journal, a collection screen. When it has
+neither, say that the game has no formal 100% and list the closest thing
+players chase.
+
+### Rendering it
+
+- A **stat row** at the top: total · missable · playthroughs · time to 100%. The
+  missable count uses the warning colour and links down to the missable group.
+- The **roadmap** as a short numbered list (real sequence, so numbering is
+  earned), one stage per item.
+- The **list** as one table per group, or one table with a group column and a
+  filter — whichever keeps the reader's current group on one screen:
+
+| ✓ | Achievement | How | Missable? |
+|---|---|---|---|
+
+  The name column holds a `.spoil` span for hidden achievements. The last column
+  uses the same three-state pill as "Do this or lose it forever" and links to
+  the matching row there.
+- A **checkbox per achievement**, persisted the same way as the questline ticks:
+  a runtime capability when the page has one, otherwise `localStorage` under
+  `<slug>:achievements` wrapped in try/catch, with a line saying the ticks live
+  in that browser only. Show a running "12 / 48" beside the stat row.
+- Keep global percentages in a mono numeral column; they are data, not prose.
 
 ## The questline tab
 
