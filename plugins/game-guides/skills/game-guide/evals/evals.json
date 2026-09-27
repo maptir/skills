@@ -93,6 +93,13 @@
       "files": []
     },
     {
+      "id": 14,
+      "name": "ticks-one-box-per-thing-with-export",
+      "prompt": "อยากได้ guide Ori and the Will of the Wisps เล่น PC ครั้งแรก อยากติ๊กได้ว่าเก็บอะไรไปแล้ว แล้วเล่นสลับคอมที่บ้านกับโน้ตบุ๊ก",
+      "expected_output": "Every where-list (life cells, energy cells, shards, spirit trials or whichever rationed totals the game has), the 'Do this or lose it forever' table and the achievements list have one tick box per row, persisted in localStorage under '<slug>:<list>' keys, each list with a running 'n / total' counter. An item is ticked in one place only: walkthrough area blocks show a live 'x/y' tally driven by data-area rows rather than their own boxes, and missables rows that are where-list items link to that list instead of carrying a second box. The footer has one .ticks-io export/import block with data-slug equal to the slug, and the page tells the player that ticks live in one browser and how to move them to the other machine. No shared runtime database is used for ticks. check_guide.py reports 0 errors and no ticks-io warning.",
+      "files": []
+    },
+    {
       "id": 11,
       "name": "legacy-guide-upgrade",
       "prompt": "Update my old Lies of P guide (it's in game-guides/lies-of-p/) — the Legion Arm numbers changed in the last patch.",

@@ -111,6 +111,11 @@ game-guides/
   `<symbol id="i-quartz" viewBox="0 0 64 64"><image href="images/quartz.png" width="64" height="64"/></symbol>`.
 - `localStorage` keys start with the slug and a colon: `hollow-knight:quest-ticks`.
   Guides share an origin inside a hub, and un-prefixed keys collide.
+- A guide that saves ticks carries one `.ticks-io[data-slug="<slug>"]` block
+  (`page-build.md`, "Moving ticks between browsers"). Its text format —
+  `{"guide": "<slug>", "v": 1, "data": {"<slug>:<list>": "<stored string>"}}` —
+  is the same everywhere, so ticks move between a standalone copy, a hub and
+  another browser.
 - The only external request allowed is Google Fonts, and the page must read
   fine if it fails to load — always give a system-font fallback.
 - No wording that assumes where the page lives ("this is a private page",
@@ -144,5 +149,6 @@ Do every tier that is available, in order:
 - [ ] No `data:image` anywhere
 - [ ] Every `src` / `href` asset path is relative and the file exists
 - [ ] Every `localStorage` key starts with `<slug>:`
+- [ ] Saves ticks ⇒ one `.ticks-io` block whose `data-slug` is the slug; no two checklist roots share a `data-key`
 - [ ] No external URL other than `fonts.googleapis.com` / `fonts.gstatic.com` is loaded (links the reader clicks are fine)
 - [ ] Images you did not draw ⇒ `image_credits` is not empty

@@ -205,53 +205,158 @@ this reason.
 
 ## Checklist tables
 
-Where-lists and the achievements tab share one component: a table with a tick
-box per row, a running "12 / 48" counter, and ticks persisted per list. Every
-list sits in its own root with a `data-key` of the form `<slug>:<list>`, and one
-script serves every root on the page.
+Where-lists, the missables table and the achievements tab share one component:
+a table with a tick box per row, a running "12 / 48" counter, and ticks
+persisted per list. Every list sits in its own root with a `data-key` of the
+form `<slug>:<list>` and a short `data-label` ("Mask", "Fleas") used by the area
+tallies below, and one script serves every root on the page.
 
 ```html
-<div class="ach" data-key="hollow-knight-silksong:masks">
+<div class="ach" data-key="hollow-knight-silksong:masks" data-label="Mask">
   <div class="ach-stat ach-prog"><b data-ach-count>0 / 20</b><span>ticks live in this browser only</span></div>
   <div class="ach-tw"><table>…
-    <tr><td class="ck"><input type="checkbox" data-ach="masks-1" aria-label="Mask Shard 1"></td> … </tr>
+    <tr data-area="moss-grotto"><td class="ck"><input type="checkbox" data-ach="masks-1" aria-label="Mask Shard 1"></td> … </tr>
   …</table></div>
 </div>
+
+<!-- inside an area block of the walkthrough tab: filled in live from the lists -->
+<p class="tally" data-tally="moss-grotto"></p>
 ```
 
 ```js
-[].forEach.call(document.querySelectorAll('.ach[data-key]'), function (root) {
-  var KEY = root.getAttribute('data-key'), state = {};
-  try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
-  var boxes = [].slice.call(root.querySelectorAll('input[data-ach]'));
-  var out = root.querySelector('[data-ach-count]');
-  function paint() {
-    var n = 0;
-    boxes.forEach(function (b) { if (b.checked) n++; var tr = b.closest('tr'); if (tr) tr.classList.toggle('done', b.checked); });
-    if (out) out.textContent = n + ' / ' + boxes.length;
-  }
-  boxes.forEach(function (b) {
-    var k = b.getAttribute('data-ach');
-    if (state[k]) b.checked = true;
-    b.addEventListener('change', function () {
-      state[k] = b.checked;
-      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
-      paint();
+(function () {
+  var roots = [].slice.call(document.querySelectorAll('[data-key]'));
+  function tally() {                                  // "Mask 1/2 · Fleas 0/3" per area block
+    [].forEach.call(document.querySelectorAll('[data-tally]'), function (el) {
+      var area = el.getAttribute('data-tally'), parts = [];
+      roots.forEach(function (root) {
+        var bs = root.querySelectorAll('[data-area="' + area + '"] input[data-ach]'), n = 0;
+        if (!bs.length) return;
+        [].forEach.call(bs, function (b) { if (b.checked) n++; });
+        parts.push((root.getAttribute('data-label') || '') + ' ' + n + '/' + bs.length);
+      });
+      el.textContent = parts.join(' · ');
     });
+  }
+  roots.forEach(function (root) {
+    var KEY = root.getAttribute('data-key'), state = {};
+    try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
+    var boxes = [].slice.call(root.querySelectorAll('input[data-ach]'));
+    var out = root.querySelector('[data-ach-count]');
+    function paint() {
+      var n = 0;
+      boxes.forEach(function (b) {
+        if (b.checked) n++;
+        var row = b.closest('tr, li, [data-tick-row]');
+        if (row) row.classList.toggle('done', b.checked);
+      });
+      if (out) out.textContent = n + ' / ' + boxes.length;
+    }
+    boxes.forEach(function (b) {
+      var k = b.getAttribute('data-ach');
+      if (state[k]) b.checked = true;
+      b.addEventListener('change', function () {
+        state[k] = b.checked;
+        try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+        paint(); tally();
+      });
+    });
+    root.addEventListener('click', function (e) {   // "see how not to miss it" links to another tab
+      var g = e.target.closest ? e.target.closest('[data-goto]') : null;
+      var t = g && document.getElementById(g.getAttribute('data-goto'));
+      if (t) t.click();
+    });
+    paint();
   });
-  root.addEventListener('click', function (e) {   // "see how not to miss it" links to another tab
-    var g = e.target.closest ? e.target.closest('[data-goto]') : null;
-    var t = g && document.getElementById(g.getAttribute('data-goto'));
-    if (t) t.click();
-  });
-  paint();
-});
+  tally();
+})();
 ```
+
+The root is any element with a `data-key`; `.ach` is only the table styling.
+Tables are the usual shape, but a list item or a card works too: put the box in
+the `<li>`, or in a card marked `data-tick-row` — a questline card gets one box
+per step or per quest this way.
 
 Style the table like the page's other tables; give the tick column ~34px, strike
 through the name of a ticked row at reduced opacity, and keep counts and
 percentages in the mono numeral face. `scripts/check_guide.py` verifies that
-every `data-key` starts with the slug.
+every `data-key` starts with the slug, that no key is used by two roots, and that
+no `data-ach` repeats inside one root.
+
+**One box per thing.** An item appears in several places — its where-list, an
+area block, a missables row, an achievement — but it is ticked in exactly one:
+its where-list. Everywhere else shows a live count (`data-tally`) or a
+`data-goto` link to the tab that holds the list, never a second box. (Point
+`data-goto` at a tab button, never at a checkbox — the script clicks its
+target.) Two boxes for one Mask Shard drift apart within a
+session and the player stops trusting both.
+
+**Area tallies replace hand-written counts.** Give each where-list row a
+`data-area` (the area block's id) and put a `data-tally` line in the block; the
+script fills it. A static "masks 2 · fleas 3" line cannot show what the player
+has already picked up.
+
+### Moving ticks between browsers
+
+Ticks live in `localStorage`, which belongs to one browser and one page origin:
+the same guide opened standalone and inside a hub are two separate stores, and
+clearing site data wipes both. Every guide with at least one tick box ships one
+export/import block, in the footer:
+
+```html
+<details class="ticks-io" data-slug="hollow-knight">
+  <summary>Back up or move your ticks</summary>
+  <p>Ticks are saved in this browser only. Export copies them as text; paste
+     that text into this guide somewhere else and press Import.</p>
+  <textarea rows="3" spellcheck="false" aria-label="Ticks as text"></textarea>
+  <div class="io-row"><button type="button" data-io="export">Export</button>
+    <button type="button" data-io="import">Import</button> <span data-io-msg role="status"></span></div>
+</details>
+```
+
+```js
+[].forEach.call(document.querySelectorAll('.ticks-io[data-slug]'), function (box) {
+  var slug = box.getAttribute('data-slug'), pre = slug + ':';
+  var ta = box.querySelector('textarea'), msg = box.querySelector('[data-io-msg]');
+  function say(t) { if (msg) msg.textContent = t; }
+  box.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('[data-io]') : null;
+    if (!b) return;
+    if (b.getAttribute('data-io') === 'export') {
+      var data = {};
+      try {
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k && k.indexOf(pre) === 0) data[k] = localStorage.getItem(k);
+        }
+      } catch (err) { say('Storage is unavailable here'); return; }
+      ta.value = JSON.stringify({ guide: slug, v: 1, data: data });
+      ta.select();
+      try { navigator.clipboard.writeText(ta.value).then(function () { say('Copied'); }, function () { say('Select the text and copy it'); }); }
+      catch (err) { say('Select the text and copy it'); }
+    } else {
+      var d;
+      try { d = JSON.parse(ta.value); } catch (err) { say('That is not backup text'); return; }
+      if (!d || d.guide !== slug || !d.data || typeof d.data !== 'object') { say('That text belongs to another guide'); return; }
+      var n = 0;
+      try {
+        Object.keys(d.data).forEach(function (k) {
+          if (k.indexOf(pre) === 0 && typeof d.data[k] === 'string') { localStorage.setItem(k, d.data[k]); n++; }
+        });
+      } catch (err) { say('Storage is unavailable here'); return; }
+      say('Imported ' + n + ' list(s), reloading');
+      setTimeout(function () { location.reload(); }, 400);
+    }
+  });
+});
+```
+
+It exports every key under the guide's slug, so questline ticks written by
+older code are carried too. Import replaces the lists it contains and leaves
+the others alone; it never touches another guide's keys, which matters inside a
+hub where every guide shares one store. Do not reach for a shared runtime
+database instead: on a page shared by link, every viewer would read and write
+the same ticks.
 
 ## The ranked list
 
@@ -424,7 +529,8 @@ When the page remembers something — ticked quests, a chosen build — use
 `localStorage` with keys that start with the slug: `hollow-knight:quest-ticks`.
 Guides share an origin inside a hub, and a bare `quest-ticks` from two guides
 would overwrite each other. Wrap every access in `try/catch`; storage can be
-unavailable, and the page must still work without it.
+unavailable, and the page must still work without it. Any page that saves
+ticks also carries the export/import block from "Checklist tables".
 
 ## Footer
 

@@ -143,13 +143,20 @@ padding the tab with fake stakes to look thorough would destroy it.
 A table, because the reader scans it looking for the row that matches where they
 currently are:
 
-| Where | What you miss | What you lose | Get it back? |
-|---|---|---|---|
+| ✓ | Where | What you miss | What you lose | Get it back? |
+|---|---|---|---|---|
 
 Order rows by when the player meets them, so the table reads as a timeline. Use
 a pill in the last column with three distinct states — recoverable this run,
 recoverable only in a new run, and gone for good on this save — and keep the
 colours consistent with the rest of the page's warning vocabulary.
+
+The tick column means "dealt with or safely past", and it is the checklist
+component from `page-build.md` under the key `<slug>:missables`, with the same
+"12 / 30" counter. A player twenty hours in uses it to find the first unticked
+row — the next window still open. When a row *is* a where-list item (a shard
+sold by a vendor who leaves), it gets no box of its own: the cell links to the
+tab holding that list, so the item is ticked in one place only.
 
 When the game locks almost nothing, open the tab with a short paragraph saying
 so and naming what it rations instead, then show whatever small table remains.
@@ -220,10 +227,12 @@ players chase.
   The name column holds a `.spoil` span for hidden achievements. The last column
   uses the same three-state pill as "Do this or lose it forever" and links to
   the matching row there.
-- A **checkbox per achievement**, persisted the same way as the questline ticks:
-  a runtime capability when the page has one, otherwise `localStorage` under
-  `<slug>:achievements` wrapped in try/catch, with a line saying the ticks live
-  in that browser only. Show a running "12 / 48" beside the stat row.
+- A **checkbox per achievement**: the checklist component under
+  `<slug>:achievements`, with a line saying the ticks live in that browser only
+  and pointing at the export/import block. Show a running "12 / 48" beside the
+  stat row. An achievement that *is* a where-list total ("all Mask Shards")
+  still gets its box here — the achievement and the items are different things
+  to tick.
 - Keep global percentages in a mono numeral column; they are data, not prose.
 
 ## Where-lists
@@ -252,7 +261,8 @@ What each list carries:
   is normal, not a failure. Put that sentence above the list when the split is
   lopsided.
 - **A tick box per row**, persisted under `<slug>:<list>`; see "Checklist tables"
-  in `page-build.md`, which the achievements tab uses too.
+  in `page-build.md`, which the missables table and the achievements tab use
+  too. This is the one place the item is ticked.
 - **Row count equals the stated total**, or the list says why not ("21 rows:
   rows 4 and 5 are either/or").
 
@@ -261,8 +271,11 @@ Late-game rows follow the walkthrough rule: the visible layer says the act and
 the gate.
 
 When the game has area blocks (a walkthrough tab), add one line to each block
-counting what that area holds from each list — "masks 2 · spools 1 · fleas 3".
-It is the number a player uses to decide whether to sweep an area now.
+counting what that area holds from each list — "Mask 1/2 · Spool 0/1 · Fleas
+2/3". It is the number a player uses to decide whether to sweep an area now.
+Build it as a live tally (`data-area` on the rows, `data-tally` in the block;
+`page-build.md`, "Checklist tables") so it counts what they have picked up, and
+put no tick boxes in the area block itself.
 
 ## The questline tab
 
@@ -314,9 +327,11 @@ Each card:
 
 Give each step a checkbox. A questline tab is the one part of a guide read
 across many sessions, so persisted ticks are worth more here than anywhere else
-on the page — use a runtime capability if the page has one (load
-`artifact-capabilities` before writing), otherwise `localStorage` wrapped in
-try/catch, with a line saying the ticks live only in that browser.
+on the page. Persist them in `localStorage` under `<slug>:quests`, wrapped in
+try/catch, with a line saying the ticks live only in that browser and pointing
+at the export/import block (`page-build.md`, "Moving ticks between browsers").
+Not a shared runtime database: on a page shared by link every viewer would tick
+the same boxes.
 
 Order cards by when the player first meets each NPC, then put one compact figure
 above them: a horizontal line of the game's major milestones with every chain's

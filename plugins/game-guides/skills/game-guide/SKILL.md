@@ -357,6 +357,10 @@ check specifically for:
   not equal the stated total gets fixed or explained ("21 rows: rows 4 and 5
   are either/or"). This is the check that catches a guide that knows how many
   but not where.
+- **Ticks.** Every where-list, the missables table and the achievements list
+  have tick boxes; each thing has exactly one box (area blocks show a live
+  tally, other tabs link); the footer carries the export/import block. See
+  `references/page-build.md`, "Checklist tables".
 - **Narrow-screen overflow.** At phone width the page body must not scroll
   sideways on any tab. The usual cause is a grid column declared `1fr` (which
   means `minmax(auto, 1fr)`) around a table or figure with a `min-width`; use

@@ -226,9 +226,40 @@ def check(path):
     # Keys taken from data-key attributes (the checklist component): check the attributes themselves.
     for var in re.findall(r"\b(?:var|let|const)\s+([A-Za-z_$][\w$]*)\s*=\s*\w+\.getAttribute\(\s*['\"]data-key['\"]\s*\)", src):
         seen.add(var)
-    for key in re.findall(r'data-key="([^"]*)"', src):
+    # Loop variables filtered by a slug-prefix test (the export/import block) are checked by that test.
+    for var in re.findall(r"\b([A-Za-z_$][\w$]*)\s*\.\s*(?:indexOf\(\s*[\w$]+\s*\)\s*===?\s*0|startsWith\()", src):
+        seen.add(var)
+    keys = re.findall(r'data-key="([^"]*)"', src)
+    for key in keys:
         if slug and not key.startswith(slug + ":"):
             errors.append(f"data-key '{key}' must start with '{slug}:'")
+    for key in sorted({k for k in keys if keys.count(k) > 1}):
+        errors.append(f"data-key '{key}' is used by {keys.count(key)} checklists; they would overwrite each other's ticks")
+
+    # Checklists: one box per thing inside a list; area tallies that point somewhere.
+    parts = re.split(r'(?=<[^>]*\bdata-key=")', src)
+    areas = set()
+    for part in parts[1:]:
+        key = re.search(r'data-key="([^"]*)"', part).group(1)
+        ids = re.findall(r'data-ach="([^"]*)"', part)
+        for dup in sorted({i for i in ids if ids.count(i) > 1}):
+            errors.append(f"data-ach '{dup}' appears {ids.count(dup)} times in checklist '{key}'")
+        areas.update(re.findall(r'data-area="([^"]*)"', part))
+    for area in re.findall(r'data-tally="([^"]*)"', src):
+        if area not in areas:
+            warnings.append(f"data-tally '{area}' has no where-list row with data-area=\"{area}\"; it will render empty")
+
+    # Export/import block.
+    ticks = bool(keys) or bool(re.search(r"localStorage\s*\.\s*setItem", src))
+    io_slugs = re.findall(r'class="[^"]*\bticks-io\b[^"]*"[^>]*data-slug="([^"]*)"|data-slug="([^"]*)"[^>]*class="[^"]*\bticks-io\b', src)
+    io_slugs = [a or b for a, b in io_slugs]
+    if ticks and not io_slugs:
+        warnings.append("the page saves ticks but has no .ticks-io export/import block (page-build.md, 'Moving ticks between browsers')")
+    for s in io_slugs:
+        if slug and s != slug:
+            errors.append(f".ticks-io data-slug '{s}' must be the guide slug '{slug}'")
+    if len(io_slugs) > 1:
+        warnings.append(f"{len(io_slugs)} .ticks-io blocks; one is enough")
     for m in re.finditer(r"localStorage\s*\.\s*(setItem|getItem|removeItem)\s*\(\s*([^,)]*)", src):
         op, arg = m.group(1), m.group(2).strip()
         lit = re.match(r"^(['\"`])(.*?)\1$", arg)
